@@ -20,6 +20,10 @@ public class Battle {
             System.out.println("3. Special");
             System.out.println("4. Recover");
 
+            if (!scanner.hasNextLine()) {
+                return false;
+            }
+
             int choice = ConsoleChoice.read(scanner, 1, 4);
 
             boolean validAction = true;
@@ -41,8 +45,17 @@ public class Battle {
                     break;
 
                 case 4:
-                    player.recover();
-                    System.out.println("You recovered 3 resource!");
+                    validAction = player.recover();
+                    if (validAction) {
+                        System.out.println("You recovered 3 resource!");
+                    } else {
+                        System.out.println("Resource is already at maximum!");
+                    }
+                    break;
+
+                default:
+                    validAction = false;
+                    System.out.println("Invalid choice. Enter a number from 1 to 4.");
                     break;
             }
 

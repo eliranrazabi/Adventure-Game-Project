@@ -34,7 +34,9 @@ public class Game {
 
         System.out.println("\nYou defeated the first enemy!");
 
-        chooseReward(scanner);
+        if (!chooseReward(scanner)) {
+            return;
+        }
 
         player.clearDefense();
 
@@ -51,7 +53,7 @@ public class Game {
         }
     }
 
-    private void chooseReward(Scanner scanner) {
+    private boolean chooseReward(Scanner scanner) {
 
         while (!rewardClaimed) {
 
@@ -59,7 +61,16 @@ public class Game {
             System.out.println("1. RECOVERY (+25 HP)");
             System.out.println("2. POWER (+2 Attack Damage)");
 
+            if (!scanner.hasNextLine()) {
+                return false;
+            }
+
             int choice = ConsoleChoice.read(scanner, 1, 2);
+
+            if (choice == -1) {
+                System.out.println("Invalid reward choice. Enter 1 or 2.");
+                continue;
+            }
 
             Reward reward;
 
@@ -71,9 +82,11 @@ public class Game {
 
             claimReward(reward);
         }
+
+        return true;
     }
 
-    private boolean claimReward(Reward reward) {
+    boolean claimReward(Reward reward) {
 
         if (!firstEncounterWon || rewardClaimed) {
             return false;

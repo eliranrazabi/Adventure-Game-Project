@@ -1,4 +1,3 @@
-
 package edu.starter;
 
 public class Combatant {
@@ -19,7 +18,7 @@ public class Combatant {
         this.attackDamage = 10;
     }
 
-    public void takeDamage(int damage) {
+    void takeDamage(int damage) {
         damage = Math.max(0, damage);
 
         int took_damage = Math.max(0, damage - pending_defense);
@@ -28,11 +27,15 @@ public class Combatant {
         HP = Checks.within(HP - took_damage, 0, max_HP);
     }
 
-    public void recover() {
+    public boolean recover() {
+        if (resource >= 10) {
+            return false;
+        }
         recover(3);
+        return true;
     }
 
-    public void recover(int resources) {
+    void recover(int resources) {
         resource = Checks.within(resource + resources, 0, 10);
     }
 
@@ -40,8 +43,8 @@ public class Combatant {
         defend(5);
     }
 
-    public void defend(int defense) {
-        pending_defense += Math.max(0, defense);
+    void defend(int defense) {
+        pending_defense = Math.max(0, defense);
     }
 
     public boolean special(Combatant target) {
@@ -59,15 +62,15 @@ public class Combatant {
         target.takeDamage(attackDamage);
     }
 
-    public void restoreHp(int amount) {
+    void restoreHp(int amount) {
         HP = Checks.within(HP + Math.max(0, amount), 0, max_HP);
     }
 
-    public void upgradeAttack() {
+    void upgradeAttack() {
         attackDamage += 2;
     }
 
-    public void clearDefense() {
+    void clearDefense() {
         pending_defense = 0;
     }
 
